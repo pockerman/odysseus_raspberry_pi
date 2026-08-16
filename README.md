@@ -2,17 +2,7 @@
 
 ![Odisseus](imgs/odi_3.JPG)
 
-This fixes hotfix_branch_10
-This is a normal branch that fixes things
-
-This is a major change. On hotfix 2.
-
-This is a very serious error to be fixed. I am fixing it now. Seriously...........
-This is a very serious error to be fixed. I am fixing it now. Seriously.
-
-
 This is my attempt to develop a two wheels multi-sensor robot using Raspberry Pi. 
-There is also a simulation based on ROS which is in progress here: https://github.com/pockerman/odisseus_ros  
 
 ## Contents
 * [Hardware](#hardware)
@@ -21,9 +11,8 @@ There is also a simulation based on ROS which is in progress here: https://githu
 	* [Desing Notes](#design_notes) 
 * [Installation](#installation)
 * [Useful Links](#useful_links)
-* [How To](#how_to)
-	* [Start the Flask-based Control Server](#start_control_server)
-* [Useful Links](#useful_links)
+
+
 
  
 
@@ -48,23 +37,12 @@ Checkout the design notes <a href="doc/notes.pdf">here</a>.
 
 ## <a name="installation"></a> Installation
 
-Install the following components
+Odysseus uses Pyinfra for deployment/configuration of the Raspberry Pi board. Execute pyinfra using
 
-- **```RPi.GPIO```**
-
-```
-sudo apt-get install python-dev
-sudo apt-get install python-rpi.gpio
-
+```commandline
+uv run pyinfra -H pi@pi-ip deploy.py
 ```
 
-## <a name="how_to"></a> How To
-
-
-### <a name="start_control_server"></a> Start the Flask-based control server
-
-
-- ```python3 odisseus_web_app.py```
 
 ## <a name="useful_links"></a> Useful Links
 
