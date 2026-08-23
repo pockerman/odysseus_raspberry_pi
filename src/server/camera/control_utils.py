@@ -1,8 +1,8 @@
 import time
-from pi_camera_stream import setup_camera
-from pi_camera_stream import start_stream
-from pi_camera_stream import get_encoded_bytes_for_frame
-from display_queue_utils import put_output_image
+from src.server.camera.pi_camera_stream import setup_camera
+from src.server.camera.pi_camera_stream import start_stream
+from src.server.camera.pi_camera_stream import get_encoded_bytes_for_frame
+from src.server.camera.display_queue_utils import put_output_image
 
 def get_control_instruction(control_queue):
     """
