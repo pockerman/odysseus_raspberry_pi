@@ -19,13 +19,13 @@ def main(configuration):
 if __name__ == '__main__':
 
     # Read the configuration
-    CONFIG_FILENAME = "config.json"
+    CONFIG_FILENAME = "../config.json"
     config = MasterProcess.read_config(filename=CONFIG_FILENAME)
 
     if config["ON_RASP_PI"]:
         import RPi.GPIO as GPIO
     else:
-        from gpio_mock import GPIOMock as GPIO
+        from utils.gpio_mock import GPIOMock as GPIO
 
     # need to set the board mode before doing anything with the pins
     GPIO.setmode(GPIO.BCM)

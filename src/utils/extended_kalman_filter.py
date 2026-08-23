@@ -1,6 +1,6 @@
 
 import numpy as np
-from matrix_descriptor import MatrixDescriptor
+from src.utils.matrix_descriptor import MatrixDescriptor
 
 __all__ = ["ExtendedKalmanFilter",
            "EKFMatrixDescription"]
