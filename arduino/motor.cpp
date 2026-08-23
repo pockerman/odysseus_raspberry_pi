@@ -5,74 +5,66 @@
 namespace motors
 {
 
-  Motor::Motor(const char* name, uint8_t f_pin, uint8_t b_pin,
-               uint8_t e_pin,int max_speed)
+  Motor::Motor(const char* name, uint8_t in1, uint8_t in2,
+          uint8_t enable, uint8_t max_speed)
   :
   name_(name),
-  f_pin_(f_pin),
-  b_pin_(b_pin),
-  e_pin_(e_pin),
+  in1_pin_(in1),
+  in2_pin_(in2),
+  enable_pin_(enable),
   max_speed_(max_speed),
+  current_speed_(0),
   is_stopped_(true)
   {
     //these are output from the Arduino and into
     //the L298N bridge
-    pinMode(f_pin_,OUTPUT);
-    pinMode(b_pin_,OUTPUT);
-    pinMode(e_pin_,OUTPUT);
+    pinMode(in1_pin_,OUTPUT);
+    pinMode(in2_pin_,OUTPUT);
+    pinMode(enable_pin_,OUTPUT);
   }
 
-
-
-  void 
+  void
   Motor::stop(){
-  
-    digitalWrite(f_pin_,LOW);
-    digitalWrite(b_pin_,LOW);
+
+    digitalWrite(in1_pin_,LOW);
+    digitalWrite(in2_pin_,LOW);
+    analogWrite(enable_pin_, 0);
     is_stopped_ = true;
   }
 
-  void 
-  Motor::enable(){
-    digitalWrite(e_pin_,HIGH);
-  }
-  
-  void 
-  Motor::disable(){
-    digitalWrite(e_pin_,LOW);
-  }
+  void
+  Motor::forward(const uint8_t speed){
 
-
-
-  void 
-  Motor::forward(int speed){
-    
-    digitalWrite(f_pin_,HIGH);
-    digitalWrite(b_pin_,LOW);
+    digitalWrite(in1_pin_, HIGH);
+    digitalWrite(in2_pin_, LOW);
 
     //here speed specifies the duty cycle and should be
     //between [0,255] 0 = always off, 255 = always on
-
-    if(speed < 0)
-      speed = 0;
-    if(speed > 255)
-      speed = 255;
-    
-    analogWrite(e_pin_,speed);
+    current_speed_ = clamp_speed_to_max_(speed);
+    analogWrite(enable_pin_,current_speed_);
+    is_stopped_ = false;
   }
 
-  void 
-  Motor::backward(int speed){
-    digitalWrite(f_pin_,LOW);
-    digitalWrite(b_pin_,HIGH);
+  void
+  Motor::backward(const uint8_t speed){
+    digitalWrite(in1_pin_,LOW);
+    digitalWrite(in2_pin_,HIGH);
 
-    if(speed < 0)
-      speed = 0;
-    if(speed > 255)
-      speed = 255;
-    
-    analogWrite(e_pin_,speed);
+    current_speed_ = clamp_speed_to_max_(speed);
+    analogWrite(enable_pin_,current_speed_);
+    is_stopped_ = false;
   }
+
+  uint8_t
+  Motor::clamp_speed_to_max_(const uint8_t speed){
+
+    if(speed > 255)
+      return max_speed_;
+
+    return speed;
+
+  }
+
 }
 
 
