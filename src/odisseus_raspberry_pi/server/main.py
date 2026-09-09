@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from server.camera.router import router as camera_router
+from odisseus_raspberry_pi.server.camera.router import router as camera_router
 
 BASE_DIR = Path(__file__).resolve().parent
 

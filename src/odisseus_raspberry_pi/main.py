@@ -25,7 +25,7 @@ if __name__ == '__main__':
     if config["ON_RASP_PI"]:
         import RPi.GPIO as GPIO
     else:
-        from utils.gpio_mock import GPIOMock as GPIO
+        from odisseus_raspberry_pi.utils.gpio_mock import GPIOMock as GPIO
 
     # need to set the board mode before doing anything with the pins
     GPIO.setmode(GPIO.BCM)

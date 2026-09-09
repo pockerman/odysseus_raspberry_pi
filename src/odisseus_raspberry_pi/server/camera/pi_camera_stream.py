@@ -5,12 +5,12 @@ import cv2
 try:
     from picamera2 import Picamera2
 except ImportError:
-    from server.camera.picam_mock import Picamera2
+    from odisseus_raspberry_pi.server.camera.picam_mock import Picamera2
 
-from server.camera.config import SCREEN_SIZE
-from server.camera.config import ENCODE_PARAMS
-from server.camera.config import CAMERA_SLEEP_TIME
-from server.camera.config import CAMERA_ROTATION
+from odisseus_raspberry_pi.server.camera.config import SCREEN_SIZE
+from odisseus_raspberry_pi.server.camera.config import ENCODE_PARAMS
+from odisseus_raspberry_pi.server.camera.config import CAMERA_SLEEP_TIME
+from odisseus_raspberry_pi.server.camera.config import CAMERA_ROTATION
 
 _ROTATE_MAP = {
     90: cv2.ROTATE_90_CLOCKWISE,

@@ -7,7 +7,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-_MOCK_IMAGE_PATH = Path(__file__).resolve().parents[3] / "imgs" / "odi_3.JPG"
+_MOCK_IMAGE_PATH = Path(__file__).resolve().parents[4] / "imgs" / "odi_3.JPG"
 
 
 class Picamera2(object):

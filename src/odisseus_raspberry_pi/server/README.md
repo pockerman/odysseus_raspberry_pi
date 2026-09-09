@@ -3,15 +3,15 @@
 The Odysseus server allows to control Odysseus via wi-fi.
 The server is based on FastAPI and has the following views:
 
-- View 1
-- View 2
+- Odysseus camera
+- Manual drive
 
 #### Starting the server
 
 Open a terminal and type
 
 ```commandline
-uv run uvicorn server.main:app
+uv run uvicorn odisseus_raspberry_pi.server.main:app
 ```
 
 This should spin up a uvicorn server. You can the access the application at http://127.0.0.1:8000/
@@ -26,7 +26,7 @@ The project dependencies are managed via uv.
 If you want to access the application from your mobile phone you need to execute
 
 ```commandline
-uv run uvicorn server.main:app --host 0.0.0.0 --port 8000
+uv run uvicorn odisseus_raspberry_pi.server.main:app --host 0.0.0.0 --port 8000
 ```
 
 #### Access the web app from your phone

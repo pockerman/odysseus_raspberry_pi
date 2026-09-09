@@ -40,6 +40,7 @@ Checkout the design notes <a href="doc/notes.pdf">here</a>.
 Odysseus uses Pyinfra for deployment/configuration of the Raspberry Pi board. Execute pyinfra using
 
 ```commandline
+sudo apt-get update && sudo apt-get install -y libcap-dev
 uv run pyinfra -H pi@pi-ip deploy.py
 ```
 
