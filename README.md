@@ -2,17 +2,8 @@
 
 ![Odisseus](imgs/odi_3.JPG)
 
-This fixes hotfix_branch_10
-This is a normal branch that fixes things
 
-This is a major change. On hotfix 2.
-
-This is a very serious error to be fixed. I am fixing it now. Seriously...........
-This is a very serious error to be fixed. I am fixing it now. Seriously.
-
-
-This is my attempt to develop a two wheels multi-sensor robot using Raspberry Pi. 
-There is also a simulation based on ROS which is in progress here: https://github.com/pockerman/odisseus_ros  
+This is an  attempt to develop a toy two wheels multi-sensor robot using Raspberry Pi. 
 
 ## Contents
 * [Hardware](#hardware)
@@ -47,6 +38,17 @@ There is also a simulation based on ROS which is in progress here: https://githu
 Checkout the design notes <a href="doc/notes.pdf">here</a>.
 
 ## <a name="installation"></a> Installation
+
+The project used ```uv``` to manange dependencies. It also uses ```pyinfra``` to transfer files from local system to the RaspberryPi board
+The following:
+
+```
+pyinfra inventory.py files.sync src=robot dest=robot
+
+```
+
+will sync  our local source (src) folder, my_robot_project/robot, to the remote
+destination (dest) folder, robot.
 
 Install the following components
 
