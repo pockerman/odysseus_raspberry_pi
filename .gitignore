@@ -1,5 +1,5 @@
 .idea/
-camera_server/__pycache__/
+src/camera_server/__pycache__/
 control/__pycache__/
 __pycache__/
 config/__pycache__/config.cpython-36.pyc

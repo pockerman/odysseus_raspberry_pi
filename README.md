@@ -2,8 +2,12 @@
 
 ![Odisseus](imgs/odi_3.JPG)
 
+<<<<<<< HEAD
 
 This is an  attempt to develop a toy two wheels multi-sensor robot using Raspberry Pi. 
+=======
+This is my attempt to develop a two wheels multi-sensor robot using Raspberry Pi. 
+>>>>>>> e0f3cd54c5f488e1c978910f21680a465cf3b7ca
 
 ## Contents
 * [Hardware](#hardware)
@@ -12,9 +16,8 @@ This is an  attempt to develop a toy two wheels multi-sensor robot using Raspber
 	* [Desing Notes](#design_notes) 
 * [Installation](#installation)
 * [Useful Links](#useful_links)
-* [How To](#how_to)
-	* [Start the Flask-based Control Server](#start_control_server)
-* [Useful Links](#useful_links)
+
+
 
  
 
@@ -39,7 +42,8 @@ Checkout the design notes <a href="doc/notes.pdf">here</a>.
 
 ## <a name="installation"></a> Installation
 
-The project used ```uv``` to manange dependencies. It also uses ```pyinfra``` to transfer files from local system to the RaspberryPi board
+
+The project used ```uv``` to manage dependencies. It also uses ```pyinfra``` to transfer files from local system to the RaspberryPi board
 The following:
 
 ```
@@ -55,18 +59,13 @@ Install the following components
 - **```RPi.GPIO```**
 
 ```
-sudo apt-get install python-dev
-sudo apt-get install python-rpi.gpio
+
+Odysseus uses Pyinfra for deployment/configuration of the Raspberry Pi board. Execute pyinfra using
 
 ```
+uv run pyinfra -H pi@pi-ip deploy.py
+```
 
-## <a name="how_to"></a> How To
-
-
-### <a name="start_control_server"></a> Start the Flask-based control server
-
-
-- ```python3 odisseus_web_app.py```
 
 ## <a name="useful_links"></a> Useful Links
 
