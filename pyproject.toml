@@ -13,8 +13,13 @@ dependencies = [
     "jinja2>=3.1.6",
     "uvicorn>=0.52.3",
     "pyinfra>=3.10.0",
+    "opencv-python-headless>=4.10",
+    "numpy>=1.26",
 
 ]
+
+[project.optional-dependencies]
+picamera = ["picamera2>=0.3.20"]
 
 [project.scripts]
 odisseus-raspberry-pi = "odisseus_raspberry_pi:main"

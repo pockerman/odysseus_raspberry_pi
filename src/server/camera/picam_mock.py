@@ -1,64 +1,43 @@
+"""
+Mocks picamera2.Picamera2 for local development on machines without
+a Pi camera attached.
+"""
+from pathlib import Path
 
 import cv2
+import numpy as np
 
-class PiRGBArray(object):
-
-    def __init__(self, camera, size):
-        self.__camera = camera
-        self.__size = size
-
-    def truncate(self, val):
-        pass
+_MOCK_IMAGE_PATH = Path(__file__).resolve().parents[3] / "imgs" / "odi_3.JPG"
 
 
-class ImgArray(object):
-
-    def __init__(self, img):
-        self.__img = img
-
-    @property
-    def array(self):
-        return self.__img
-
-    @array.setter
-    def array(self, value):
-        self.__img = value
-
-class PiCamera(object):
+class Picamera2(object):
     """
-    Mock the PiCamera class
+    Mock of picamera2.Picamera2 that repeatedly serves the same still
+    image instead of reading from real camera hardware.
     """
 
     def __init__(self):
-        self.__resolution = None
-        self.__rotation = None
-        self.__img = None
+        self.__frame = None
 
+    def create_video_configuration(self, main=None, **kwargs):
+        return {"main": main or {}}
 
-    @property
-    def resolution(self):
-        return self.__resolution
+    def configure(self, camera_config):
+        pass
 
-    @resolution.setter
-    def resolution(self, value):
-        self.__resolution = value
+    def start(self):
+        pass
 
-    @property
-    def rotation(self):
-        return self.__rotation
+    def capture_array(self):
+        if self.__frame is None:
+            image = cv2.imread(str(_MOCK_IMAGE_PATH))
+            if image is None:
+                image = np.zeros((480, 640, 3), dtype=np.uint8)
+            self.__frame = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return self.__frame
 
-    @rotation.setter
-    def rotation(self, value):
-        self.__rotation = value
+    def stop(self):
+        pass
 
-
-    def capture_continuous(self, image_storage, format, use_video_port):
-
-        """
-        Continuouisly send the same image
-        """
-
-        if self.__img is None:
-            self.__img = cv2.imread('img/image_1.png')
-
-        return [ImgArray(self.__img)]*10
+    def close(self):
+        pass

@@ -1,85 +1,61 @@
-from odisseus.config import ON_RASP_PI
-from odisseus.config import SCREEN_SIZE
-from odisseus.config import ENCODE_PARAMS
-
-if ON_RASP_PI == True:
-    from  picamera.array import PiRGBArray
-    from  picamera import PiCamera
-else:
-    from picam_mock import PiRGBArray
-    from picam_mock import PiCamera
-
-
-import cv2
 import time
 
-size = SCREEN_SIZE
-encode_param = ENCODE_PARAMS
+import cv2
 
-def setup_camera(rotation = 0.0)->PiCamera:
-    """
-    Set up the camera
-    """
+try:
+    from picamera2 import Picamera2
+except ImportError:
+    from server.camera.picam_mock import Picamera2
 
-    camera = PiCamera()
-    camera.resolution = size
-    camera.rotation = rotation
+from server.camera.config import SCREEN_SIZE
+from server.camera.config import ENCODE_PARAMS
+from server.camera.config import CAMERA_SLEEP_TIME
+from server.camera.config import CAMERA_ROTATION
+
+_ROTATE_MAP = {
+    90: cv2.ROTATE_90_CLOCKWISE,
+    180: cv2.ROTATE_180,
+    270: cv2.ROTATE_90_COUNTERCLOCKWISE,
+}
+
+
+def setup_camera(size=SCREEN_SIZE) -> Picamera2:
+    """
+    Configure and start the Pi camera for continuous frame capture
+    """
+    camera = Picamera2()
+    camera_config = camera.create_video_configuration(main={"size": size, "format": "RGB888"})
+    camera.configure(camera_config)
+    camera.start()
     return camera
 
 
-def start_stream(camera: PiCamera):
-
-    image_storage = PiRGBArray(camera, size=size)
-
-    # set up the stream of data. 'bgr' is the format OpenCV stores color data
-    # use_video_port, which, when set to true, results in a reduction in
-    # image quality in exchange for faster production of frames.
-
-    cam_stream = camera.capture_continuous(image_storage, format='bgr', use_video_port=True)
-
-    for raw_frame in cam_stream:
-        yield raw_frame.array
-
-        # reset so that we can hold the next image
-        image_storage.truncate(0)
+def rotate_frame(frame, rotation):
+    return cv2.rotate(frame, _ROTATE_MAP[rotation]) if rotation in _ROTATE_MAP else frame
 
 
-def get_encoded_bytes_for_frame(frame)->str:
+def get_encoded_bytes_for_frame(frame) -> bytes:
     """
-    Encodes an image with OpenCV
+    Encode an RGB frame captured from the camera as a JPEG image
     """
+    bgr_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    _, encoded_img = cv2.imencode('.jpg', bgr_frame, ENCODE_PARAMS)
+    return encoded_img.tobytes()
 
-    result, encoded_img = cv2.imencode('.jpg', frame, encode_param)
-    return encoded_img.tostring()
 
-
-def frame_generator(rotation, sleep_time):
+def frame_generator(rotation=CAMERA_ROTATION, sleep_time=CAMERA_SLEEP_TIME):
     """
-    Main video feed
+    Yield an MJPEG multipart stream of frames captured from the Pi camera
     """
-    camera = setup_camera(rotation=rotation)
+    camera = setup_camera()
 
-    # allow the camera to warm up
-    time.sleep(sleep_time)
-
-    for frame in start_stream(camera=camera):
-        encode_bytes = get_encoded_bytes_for_frame(frame)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + encode_bytes + b'\r\n')
-
-
-def frame_generator_from_queue(display_queue, sleep_time):
-    """
-        Generate video frames from the images in the given queue
-    """
-
-    while True:
-        # at most 20 fps
-        time.sleep(0.05)
-
-        # Get (wait until we have data)
-        encoded_bytes = display_queue.get()
-        # Need to turn this into http multipart data.
-        yield (b'--frame\r\n'
-           b'Content-Type: image/jpeg\r\n\r\n' + encoded_bytes +
-           b'\r\n')
+    try:
+        while True:
+            frame = rotate_frame(camera.capture_array(), rotation)
+            encoded_bytes = get_encoded_bytes_for_frame(frame)
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + encoded_bytes + b'\r\n')
+            time.sleep(sleep_time)
+    finally:
+        camera.stop()
+        camera.close()
