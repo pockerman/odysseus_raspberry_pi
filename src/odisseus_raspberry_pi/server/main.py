@@ -26,3 +26,12 @@ async def index(request: Request):
         name="index.html",
         context={}
     )
+
+
+@app.get("/manual_drive", response_class=HTMLResponse)
+async def manual_drive(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="manual_drive_view.html",
+        context={}
+    )
