@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Odysseus Manual Drive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; text-align: center; }
+        #cameraFeed { max-width: 100%; width: 480px; margin: 20px auto; display: block; }
+        #joyDiv { width: 200px; height: 200px; margin: 40px auto; }
+        #status p { font-size: 1.2em; margin: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Odisseus Manual Drive</h1>
+    <a href="/">Back</a>
+
+    <img id="cameraFeed" src="/odisseus/camera" alt="Live camera stream">
+
+    <div id="joyDiv"></div>
+
+    <div id="status">
+        <p>Direction: <span id="direction">C</span></p>
+        <p>X: <span id="x">0</span> Y: <span id="y">0</span></p>
+    </div>
+
+    <script src="{{ url_for('static', path='js/libs/joy.js') }}"></script>
+    <script>
+        var directionEl = document.getElementById('direction');
+        var xEl = document.getElementById('x');
+        var yEl = document.getElementById('y');
+
+        function sendDriveCommand(direction, x, y) {
+            // Hook point: publish the drive command to the robot's control
+            // channel (e.g. MQTT) here.
+            console.log('drive command', direction, x, y);
+        }
+
+        new JoyStick('joyDiv', {}, function (stickData) {
+            directionEl.textContent = stickData.cardinalDirection;
+            xEl.textContent = stickData.x;
+            yEl.textContent = stickData.y;
+            sendDriveCommand(stickData.cardinalDirection, stickData.x, stickData.y);
+        });
+    </script>
+</body>
+</html>

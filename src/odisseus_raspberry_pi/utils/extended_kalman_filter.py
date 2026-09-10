@@ -1,6 +1,6 @@
 
 import numpy as np
-from src.utils.matrix_descriptor import MatrixDescriptor
+from odisseus_raspberry_pi.utils.matrix_descriptor import MatrixDescriptor
 
 __all__ = ["ExtendedKalmanFilter",
            "EKFMatrixDescription"]
