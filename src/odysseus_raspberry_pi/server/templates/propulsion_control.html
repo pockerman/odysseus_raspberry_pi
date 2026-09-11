@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <title>Odisseus Propulsion Control</title>
+    <title>Odysseus Propulsion Control</title>
 </head>
 <body>
-    <h1>Odisseus Propulsion Control</h1>
+    <h1>Odysseus Propulsion Control</h1>
 
     <a href="{{ url_for('index') }}" >Home</a>
 
@@ -18,7 +18,7 @@
 
         <div>
             <h3>Instructions</h3>
-            <p>Control the motion of Odisseus from the panel below.</p>
+            <p>Control the motion of Odysseus from the panel below.</p>
         </div>
 
         <form method="POST" action="{{ url_for('propulsion_control_view') }}">
@@ -58,8 +58,8 @@
        <div>
         <h2>Main Control Items</h2>
         <a href="{{ url_for('control', control_name='propulsion') }}" >Propulsion Control</a>
-        <a href="{{ url_for('control', control_name='interrupt') }}" >Interrupt ( stops the process Odisseus is attached on )</a>
-        <a href="{{ url_for('control', control_name='start') }}" >Start ( starts a new process for Odisseus )</a>
+        <a href="{{ url_for('control', control_name='interrupt') }}" >Interrupt ( stops the process Odysseus is attached on )</a>
+        <a href="{{ url_for('control', control_name='start') }}" >Start ( starts a new process for Odysseus )</a>
     </div>
 </body>
 </html>

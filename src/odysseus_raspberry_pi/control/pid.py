@@ -27,7 +27,7 @@ class PIDControl:
 
         if cmd.get_name() == 'PropulsionCmd':
             cmd_speed_value = cmd.speed_value()
-            actual_speed = kwargs['odisseus_speed']
+            actual_speed = kwargs['odysseus_speed']
             rslt = self.execute(cmd_speed_value - actual_speed, **kwargs)
 
     def execute(self, error, **kwargs):

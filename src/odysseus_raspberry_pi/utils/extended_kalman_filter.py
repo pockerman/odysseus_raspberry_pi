@@ -1,6 +1,6 @@
 
 import numpy as np
-from odisseus_raspberry_pi.utils.matrix_descriptor import MatrixDescriptor
+from odysseus_raspberry_pi.utils.matrix_descriptor import MatrixDescriptor
 
 __all__ = ["ExtendedKalmanFilter",
            "EKFMatrixDescription"]
@@ -33,10 +33,10 @@ class ExtendedKalmanFilter(object):
     """
 
     def __init__(self, motion_model, observation_model,
-                 matrix_description, odisseus_config):
+                 matrix_description, odysseus_config):
 
-        # configuration of odisseus
-        self._config = odisseus_config
+        # configuration of odysseus
+        self._config = odysseus_config
 
         # the motion model used
         self._motion_model = motion_model

@@ -3,6 +3,6 @@ from pyinfra.operations import server
 server.shell(
     name="Install Python dependencies",
     commands=[
-        "cd /opt/odisseus && uv sync --locked --extra picamera",
+        "cd /opt/odysseus && uv sync --locked --extra picamera",
     ],
 )

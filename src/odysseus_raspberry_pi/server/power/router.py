@@ -2,7 +2,7 @@ import subprocess
 
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/odisseus", tags=["power"])
+router = APIRouter(prefix="/odysseus", tags=["power"])
 
 
 @router.post("/power-off")

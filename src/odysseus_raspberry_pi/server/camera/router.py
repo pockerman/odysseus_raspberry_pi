@@ -4,12 +4,12 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from odisseus_raspberry_pi.server.camera.pi_camera_stream import frame_generator
+from odysseus_raspberry_pi.server.camera.pi_camera_stream import frame_generator
 
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
-router = APIRouter(prefix="/odisseus/camera", tags=["camera"])
+router = APIRouter(prefix="/odysseus/camera", tags=["camera"])
 
 
 @router.get("")
@@ -36,4 +36,4 @@ def open_camera():
     """
     Redirect the client to the camera streaming view
     """
-    return RedirectResponse(url="/odisseus/camera/view")
+    return RedirectResponse(url="/odysseus/camera/view")

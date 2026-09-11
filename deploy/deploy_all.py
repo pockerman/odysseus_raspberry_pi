@@ -1,5 +1,5 @@
 from deploy import \
 update_packages, \
 base_packages, \
-update_odisseus, \
+update_odysseus, \
 deploy_mqtt
