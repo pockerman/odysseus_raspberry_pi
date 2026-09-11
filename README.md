@@ -2,24 +2,15 @@
 
 ![Odisseus](imgs/odi_3.JPG)
 
-<<<<<<< HEAD
+
 
 This is an  attempt to develop a toy two wheels multi-sensor robot using Raspberry Pi. 
-=======
-This is my attempt to develop a two wheels multi-sensor robot using Raspberry Pi. 
->>>>>>> e0f3cd54c5f488e1c978910f21680a465cf3b7ca
 
 ## Contents
 * [Hardware](#hardware)
-* [Software](#software)
-	* [Dependencies](#dependencies)
-	* [Desing Notes](#design_notes) 
 * [Installation](#installation)
 * [Useful Links](#useful_links)
 
-
-
- 
 
 ## <a name="hardware"></a> Hardware
 
@@ -30,11 +21,6 @@ This is my attempt to develop a two wheels multi-sensor robot using Raspberry Pi
 - An IR sensor
 - An L289N H-bridge
 
-## <a name="software"></a> Software
-
-### <a name="dependencies"></a> Dependencies
-
-- **```RPi.GPIO```**
 
 ### <a name="design_notes"></a> Design Notes
 
@@ -54,15 +40,11 @@ pyinfra inventory.py files.sync src=robot dest=robot
 will sync  our local source (src) folder, my_robot_project/robot, to the remote
 destination (dest) folder, robot.
 
-Install the following components
-
-- **```RPi.GPIO```**
-
-```
-
 Odysseus uses Pyinfra for deployment/configuration of the Raspberry Pi board. Execute pyinfra using
 
 ```
+sudo apt-get update && sudo apt-get install -y libcap-dev
+
 uv run pyinfra -H pi@pi-ip deploy.py
 ```
 
