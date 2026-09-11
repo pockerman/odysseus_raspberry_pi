@@ -16,7 +16,7 @@
     <a href="/">Back</a>
     {% include "_power_off_button.html" %}
 
-    <img id="cameraFeed" src="/odisseus/camera" alt="Live camera stream">
+    <img id="cameraFeed" src="/odysseus/camera" alt="Live camera stream">
 
     <div id="joyDiv"></div>
 
@@ -26,15 +26,17 @@
     </div>
 
     <script src="{{ url_for('static', path='js/libs/joy.js') }}"></script>
-    <script>
+    <script type="module">
+        import { connect } from "{{ url_for('static', path='js/mqtt_client.js') }}";
+
         var directionEl = document.getElementById('direction');
         var xEl = document.getElementById('x');
         var yEl = document.getElementById('y');
 
+        var mqttClient = connect();
+
         function sendDriveCommand(direction, x, y) {
-            // Hook point: publish the drive command to the robot's control
-            // channel (e.g. MQTT) here.
-            console.log('drive command', direction, x, y);
+            mqttClient.publish('odysseus/drive', JSON.stringify({ direction: direction, x: x, y: y }));
         }
 
         new JoyStick('joyDiv', {}, function (stickData) {

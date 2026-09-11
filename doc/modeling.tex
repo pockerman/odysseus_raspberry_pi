@@ -2,12 +2,12 @@
 \label{modeling}
 The Extended Kalman Filter discussed in section \ref{extended_kalman_filter}, requires
 as motion model as input in order to make a predictions about the
-pose of the robot. This section discusses the kinematics model used by Odisseus.
+pose of the robot. This section discusses the kinematics model used by Odysseus.
 
 \subsection{Unicycle model}
 \label{unicycle_model}
 
-Odisseus is using the following unicycle model in order to capture the kinematics
+Odysseus is using the following unicycle model in order to capture the kinematics
 of the robot motion 
 
 \begin{eqnarray}
@@ -31,7 +31,7 @@ As mentioned previously, the velocity $v$ is one of the inputs that is given to 
 
 \begin{equation}
 v = \frac{v_l + v_r}{2}
-\label{odisseus_velocity}
+\label{odysseus_velocity}
 \end{equation}
 
 where $R$ is the wheels radius and $v_r,v_l$ are the right and left wheels velocities respectively. Both are related to the angular wheel velocities $\omega_r,$ and  $\omega_l$ respectively and the wheel radius $R$ according to equation \ref{wheel_velocity}
@@ -41,16 +41,16 @@ v_i = \omega_iR, ~~ i = r, l
 \label{wheel_velocity}
 \end{equation}
 Similarly the second input to the system is the angular velocity of 
-the robot $\omega$. This is related to $v_l$ and $v_r$ according to equation \ref{odisseus_angular_velocity}
+the robot $\omega$. This is related to $v_l$ and $v_r$ according to equation \ref{odysseus_angular_velocity}
 
 \begin{equation}
 \omega = \frac{v_l - v_r}{2L}
-\label{odisseus_angular_velocity}
+\label{odysseus_angular_velocity}
 \end{equation}
 
 \subsection{Discrete kinematic model}
 \label{discrete_kinematic model}
-Equation \ref{continuous_kinematic_model} represents a continuous model. Odisseus, instead uses a discrete
+Equation \ref{continuous_kinematic_model} represents a continuous model. Odysseus, instead uses a discrete
 counterpart of the model given by the equations below. 
 
 \subsubsection{Case $\omega=0$}

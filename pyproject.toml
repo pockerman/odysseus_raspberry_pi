@@ -1,5 +1,5 @@
 [project]
-name = "odisseus-raspberry-pi"
+name = "odysseus-raspberry-pi"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -22,7 +22,7 @@ dependencies = [
 picamera = ["picamera2>=0.3.20"]
 
 [project.scripts]
-odisseus-raspberry-pi = "odisseus_raspberry_pi:main"
+odysseus-raspberry-pi = "odysseus_raspberry_pi:main"
 
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]

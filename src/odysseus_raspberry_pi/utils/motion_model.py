@@ -31,7 +31,7 @@ class MotionModel(object):
 
     def step(self, u, werr):
         """
-        Computes Odisseus next state dynamics
+        Computes Odysseus next state dynamics
         The model adopted is a simple kinematic model for
         a differential drive system
 

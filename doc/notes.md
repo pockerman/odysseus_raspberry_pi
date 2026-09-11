@@ -1,6 +1,6 @@
 # Odiseus Robot
 
-This set of notes describes the design of Odisseus.
+This set of notes describes the design of Odysseus.
 
 ## Hardware
 

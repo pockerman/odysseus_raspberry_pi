@@ -1,5 +1,5 @@
 """
-Main driver for Odisseus
+Main driver for Odysseus
 """
 
 
@@ -9,9 +9,9 @@ from processes.master_process import MasterProcess
 def main(configuration):
 
     """
-    Main driver for Odisseus
+    Main driver for Odysseus
     """
-    master = MasterProcess(odisseus_configuration=configuration)
+    master = MasterProcess(odysseus_configuration=configuration)
     master.create_processes()
     master.run()
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     if config["ON_RASP_PI"]:
         import RPi.GPIO as GPIO
     else:
-        from odisseus_raspberry_pi.utils.gpio_mock import GPIOMock as GPIO
+        from odysseus_raspberry_pi.utils.gpio_mock import GPIOMock as GPIO
 
     # need to set the board mode before doing anything with the pins
     GPIO.setmode(GPIO.BCM)
