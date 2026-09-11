@@ -1,0 +1,9 @@
+<button id="powerOffBtn" type="button" onclick="powerOff()">Power off</button>
+<script>
+    function powerOff() {
+        if (!window.confirm('Power off Odisseus?')) {
+            return;
+        }
+        fetch('/odisseus/power-off', { method: 'POST' });
+    }
+</script>
