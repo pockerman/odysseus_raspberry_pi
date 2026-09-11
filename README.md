@@ -1,6 +1,6 @@
-# Odisseus Raspberry Pi
+# Odysseus Raspberry Pi
 
-![Odisseus](imgs/odi_3.JPG)
+![Odysseus](imgs/odi_3.JPG)
 
 
 
