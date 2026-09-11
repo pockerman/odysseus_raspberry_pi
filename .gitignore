@@ -10,3 +10,4 @@ server/__pycache__/__init__.cpython-36.pyc
 server/__pycache__/control_server.cpython-36.pyc
 cmd_executor.pyc
 *.pyc
+src/odisseus_raspberry_pi/server/static/js/.env.js
