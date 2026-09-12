@@ -22,28 +22,34 @@
 
     <div id="status">
         <p>Direction: <span id="direction">C</span></p>
-        <p>X: <span id="x">0</span> Y: <span id="y">0</span></p>
+        <p>Left speed: <span id="leftSpeed">0</span> Right speed: <span id="rightSpeed">0</span></p>
     </div>
 
     <script src="{{ url_for('static', path='js/libs/joy.js') }}"></script>
-    <script type="module">
-        import { connect } from "{{ url_for('static', path='js/mqtt_client.js') }}";
-
+    <script>
         var directionEl = document.getElementById('direction');
-        var xEl = document.getElementById('x');
-        var yEl = document.getElementById('y');
+        var leftSpeedEl = document.getElementById('leftSpeed');
+        var rightSpeedEl = document.getElementById('rightSpeed');
 
-        var mqttClient = connect();
+        function clampSpeed(value) {
+            return Math.max(-100, Math.min(100, Math.round(value)));
+        }
 
-        function sendDriveCommand(direction, x, y) {
-            mqttClient.publish('odysseus/drive', JSON.stringify({ direction: direction, x: x, y: y }));
+        function sendDriveCommand(leftSpeed, rightSpeed) {
+            fetch('/odysseus/manual-drive/drive', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ left_speed: leftSpeed, right_speed: rightSpeed }),
+            });
         }
 
         new JoyStick('joyDiv', {}, function (stickData) {
+            var leftSpeed = clampSpeed(stickData.y + stickData.x);
+            var rightSpeed = clampSpeed(stickData.y - stickData.x);
             directionEl.textContent = stickData.cardinalDirection;
-            xEl.textContent = stickData.x;
-            yEl.textContent = stickData.y;
-            sendDriveCommand(stickData.cardinalDirection, stickData.x, stickData.y);
+            leftSpeedEl.textContent = leftSpeed;
+            rightSpeedEl.textContent = rightSpeed;
+            sendDriveCommand(leftSpeed, rightSpeed);
         });
     </script>
 </body>
