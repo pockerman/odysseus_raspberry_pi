@@ -4,7 +4,7 @@
 // use all the standard definitions of the Arduino language
 #include "Arduino.h"
 
-namespace motors
+namespace odysseus
 {
   // class Motor models an electric motor
   // controlled via an L298N bridge.
@@ -66,7 +66,7 @@ namespace motors
     uint8_t clamp_speed_to_max_(const uint8_t speed);
   };
 
-}//motors
+}//odysseus
 
 #endif
 

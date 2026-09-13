@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body { font-family: sans-serif; text-align: center; }
-        #cameraFeed { max-width: 100%; width: 480px; margin: 20px auto; display: block; }
+        #viewRow { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 20px; margin: 20px auto; }
+        #cameraFeed { max-width: 100%; width: 480px; display: block; }
+        #distanceChartWrap { max-width: 100%; width: 480px; }
         #joyDiv { width: 200px; height: 200px; margin: 40px auto; }
         #status p { font-size: 1.2em; margin: 4px; }
     </style>
@@ -16,16 +18,80 @@
     <a href="/">Back</a>
     {% include "_power_off_button.html" %}
 
-    <img id="cameraFeed" src="/odysseus/camera" alt="Live camera stream">
+    <div id="viewRow">
+        <img id="cameraFeed" src="/odysseus/camera" alt="Live camera stream">
+        <div id="distanceChartWrap">
+            <canvas id="distanceChart"></canvas>
+        </div>
+    </div>
 
     <div id="joyDiv"></div>
 
     <div id="status">
         <p>Direction: <span id="direction">C</span></p>
         <p>Left speed: <span id="leftSpeed">0</span> Right speed: <span id="rightSpeed">0</span></p>
+        <p>Front: <span id="frontDistance">--</span> cm Rear: <span id="rearDistance">--</span> cm</p>
     </div>
 
     <script src="{{ url_for('static', path='js/libs/joy.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var frontDistanceEl = document.getElementById('frontDistance');
+        var rearDistanceEl = document.getElementById('rearDistance');
+
+        var DISTANCE_POLL_INTERVAL_MS = 500;
+        var MAX_DISTANCE_POINTS = 60;
+
+        var distanceChart = new Chart(document.getElementById('distanceChart'), {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    { label: 'Front (cm)', data: [], borderColor: 'red', fill: false, tension: 0.2 },
+                    { label: 'Rear (cm)', data: [], borderColor: 'blue', fill: false, tension: 0.2 },
+                ],
+            },
+            options: {
+                animation: false,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Distance (cm)' } },
+                },
+            },
+        });
+
+        function pollDistance() {
+            fetch('/odysseus/sensors/distance')
+                .then(function (response) { return response.json(); })
+                .then(function (data) {
+                    if (data.status !== 'ok') {
+                        return;
+                    }
+
+                    frontDistanceEl.textContent = data.front_cm;
+                    rearDistanceEl.textContent = data.rear_cm;
+
+                    var labels = distanceChart.data.labels;
+                    var frontData = distanceChart.data.datasets[0].data;
+                    var rearData = distanceChart.data.datasets[1].data;
+
+                    labels.push('');
+                    frontData.push(data.front_cm);
+                    rearData.push(data.rear_cm);
+
+                    if (labels.length > MAX_DISTANCE_POINTS) {
+                        labels.shift();
+                        frontData.shift();
+                        rearData.shift();
+                    }
+
+                    distanceChart.update();
+                })
+                .catch(function () {});
+        }
+
+        setInterval(pollDistance, DISTANCE_POLL_INTERVAL_MS);
+        pollDistance();
+    </script>
     <script>
         var directionEl = document.getElementById('direction');
         var leftSpeedEl = document.getElementById('leftSpeed');

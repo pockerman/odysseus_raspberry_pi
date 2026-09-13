@@ -43,6 +43,18 @@ class ArduinoSerialComm:
         cmd = str(cmd)
         self.serial.write(cmd.encode())
 
+    def request_status(self) -> str:
+        """
+        Ask the Arduino for its current status and return the raw response
+        line, e.g. ``"STATUS 80 60 23.40 100.10"`` (left/right motor PWM
+        duty cycle followed by the front/rear ultrasonic distances in cm).
+        This only queries the sensors/motors; it does not change motor speeds.
+
+        :return: The decoded response line, with leading/trailing whitespace stripped
+        """
+        self.serial.write(b"status\n")
+        return self.read_response()
+
     def read_response(self) -> str:
         """
         Read and return a single line sent back by the Arduino, e.g. an
