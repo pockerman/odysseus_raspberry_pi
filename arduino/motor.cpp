@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <math.h>
 
-namespace motors
+namespace odysseus
 {
 
   Motor::Motor(const char* name, uint8_t in1, uint8_t in2,

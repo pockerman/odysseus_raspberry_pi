@@ -34,7 +34,23 @@ In fact, the MotorCMD class reads from the Serial port.
 ----
 **Remark**
 
-The Raspberry Pi board sends MotorCMDs for both motors.
+The Raspberry Pi board sends MotorCMDs for both motors. It also reads from the Arduino using the USB protocol.
+The Arduino will return the following:
+
+```
+STATUS <left_pwm> <right_pwm> <front_cm> <rear_cm>
+```
+
+For example:
+
+```
+STATUS 120 100 43.2 185.7
+       │   │   │     │
+       │   │   │     └── rear distance: 185.7 cm
+       │   │   └──────── front distance: 43.2 cm
+       │   └──────────── right motor PWM: 100
+       └──────────────── left motor PWM: 120
+```
 
 ----
 
