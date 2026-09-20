@@ -24,10 +24,10 @@ This is an  attempt to develop a toy two wheels multi-sensor robot using Raspber
 
 ### <a name="design_notes"></a> Design Notes
 
-Checkout the design notes <a href="doc/notes.pdf">here</a>.
+Checkout the design notes <a href="doc/notes.md">here</a>.
 
 ## <a name="installation"></a> Installation
-See the notes <a href="docs/installation.md">here</a>
+See the notes <a href="doc/installation.md">here</a>
 
 
 The project used ```uv``` to manage dependencies. It also uses ```pyinfra``` to transfer files from local system to the RaspberryPi board
