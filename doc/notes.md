@@ -1,4 +1,4 @@
-# Odiseus Robot
+# Odysseus Robot
 
 This set of notes describes the design of Odysseus.
 
