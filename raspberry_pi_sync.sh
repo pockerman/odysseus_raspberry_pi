@@ -20,7 +20,7 @@ PI_HOST="<PI_HOST>"
 PI_USER="<PI_USER>"
 
 # Directory on the Raspberry Pi where the code is deployed
-REMOTE_DIR="/opt/odysseus"
+REMOTE_DIR="/home/odysseus"
 
 # systemd service to restart after a sync. Leave empty to skip the restart.
 SERVICE_NAME=""
