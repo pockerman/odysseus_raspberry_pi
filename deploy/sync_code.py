@@ -3,7 +3,7 @@ import os
 from pyinfra import host
 from pyinfra.operations import files, server, systemd
 
-remote_dir = os.environ.get("ODYSSEUS_REMOTE_DIR", "/opt/odysseus")
+remote_dir = os.environ.get("ODYSSEUS_REMOTE_DIR", "/home/odysseus")
 service_name = os.environ.get("ODYSSEUS_SERVICE_NAME", "")
 sync_arduino = os.environ.get("ODYSSEUS_SYNC_ARDUINO", "false").lower() == "true"
 ssh_user = host.data.ssh_user
