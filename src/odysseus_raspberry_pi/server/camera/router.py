@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
 from odysseus_raspberry_pi.server.camera.pi_camera_stream import frame_generator
+from odysseus_raspberry_pi.server.camera.square_path import square_path_generator
 
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
@@ -19,6 +20,19 @@ def stream_camera():
     """
     return StreamingResponse(
         frame_generator(),
+        media_type="multipart/x-mixed-replace; boundary=frame",
+    )
+
+
+@router.get("/square-path")
+def stream_square_path():
+    """
+    Stream generated MJPEG frames of a square path, one side at a time. Every
+    SQUARE_PATH_PERIOD seconds the frame shows the next side of the square,
+    counterclockwise. No camera is needed
+    """
+    return StreamingResponse(
+        square_path_generator(),
         media_type="multipart/x-mixed-replace; boundary=frame",
     )
 

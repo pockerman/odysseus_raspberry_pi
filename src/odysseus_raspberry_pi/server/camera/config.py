@@ -11,3 +11,17 @@ CAMERA_SLEEP_TIME = 0.05
 
 # Camera mounting rotation in degrees, one of 0, 90, 180, 270
 CAMERA_ROTATION = 0
+
+# The generated square path of /odysseus/camera/square-path, see square_path.py
+
+# Seconds between switching to the next side of the square
+SQUARE_PATH_PERIOD = 5.0
+
+# Seconds between two frames of the stream
+SQUARE_PATH_FRAME_TIME = 0.05
+
+# The side of the square, as a fraction of the frame height
+SQUARE_PATH_SIDE = 0.5
+
+# The width of the line, as a fraction of the frame height
+SQUARE_PATH_LINE_WIDTH = 0.035
