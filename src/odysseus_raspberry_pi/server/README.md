@@ -16,8 +16,16 @@ The server is based on FastAPI and has the following views:
 
 The square path shows one side of a square at a time, as a dark line on paper seen from
 above. Every `SQUARE_PATH_PERIOD` seconds, 5 by default, it switches to the next side,
-counterclockwise: bottom, right, top, left. The square is centred in the frame. The
-settings are in `camera/config.py`. bitrl's example 31 drives a simulated robot around it.
+counterclockwise: bottom, right, top, left. The square is centred in the frame. bitrl's
+example 31 drives a simulated robot around it.
+
+The four sides are the JPEG files `static/square_path/side_0.jpg` to `side_3.jpg`, also
+served at `/static/square_path/side_0.jpg` and so on. The settings are in
+`camera/config.py`; after changing them, make the files again with
+
+```bash
+python -m odysseus_raspberry_pi.server.camera.square_path
+```
 
 #### Starting the server
 

@@ -9,7 +9,14 @@ around the square, one side every period.
 
 The square is centred in the frame, so the inside of the square is on the
 left of a robot that drives the current side counterclockwise.
+
+The stream serves the JPEG files side_0.jpg to side_3.jpg in
+SQUARE_PATH_IMAGES_DIR. They are made by side_frame(); to make them again, for
+example after changing the settings in config.py, run
+
+    python -m odysseus_raspberry_pi.server.camera.square_path
 """
+import logging
 import time
 
 import cv2
@@ -19,10 +26,13 @@ from odysseus_raspberry_pi.server.camera.config import (
     ENCODE_PARAMS,
     SCREEN_SIZE,
     SQUARE_PATH_FRAME_TIME,
+    SQUARE_PATH_IMAGES_DIR,
     SQUARE_PATH_LINE_WIDTH,
     SQUARE_PATH_PERIOD,
     SQUARE_PATH_SIDE,
 )
+
+logger = logging.getLogger(__name__)
 
 # The phase of the path is the same for every client: it starts with the server
 _START = time.monotonic()
@@ -70,14 +80,41 @@ def current_side(now=None, period=SQUARE_PATH_PERIOD):
     return int((now - _START) // period) % 4
 
 
-def encoded_side_frames():
+def side_image_path(index, directory=SQUARE_PATH_IMAGES_DIR):
     """
-    The four frames as JPEG. They never change, so they are encoded once
+    The JPEG file of side index (0 to 3)
+    """
+    return directory / f"side_{index}.jpg"
+
+
+def write_side_images(directory=SQUARE_PATH_IMAGES_DIR):
+    """
+    Write the four sides as JPEG files side_0.jpg to side_3.jpg in directory
+    """
+    directory.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for index in range(4):
+        path = side_image_path(index, directory)
+        if not cv2.imwrite(str(path), side_frame(index), ENCODE_PARAMS):
+            raise OSError(f"Could not write {path}")
+        paths.append(path)
+    return paths
+
+
+def encoded_side_frames(directory=SQUARE_PATH_IMAGES_DIR):
+    """
+    The four frames as JPEG bytes, read once from the files in directory. A
+    missing file is generated in memory instead, so the stream always works
     """
     frames = []
     for index in range(4):
-        _, encoded = cv2.imencode('.jpg', side_frame(index), ENCODE_PARAMS)
-        frames.append(encoded.tobytes())
+        path = side_image_path(index, directory)
+        if path.is_file():
+            frames.append(path.read_bytes())
+        else:
+            logger.warning("%s is missing, generating side %d instead", path, index)
+            _, encoded = cv2.imencode('.jpg', side_frame(index), ENCODE_PARAMS)
+            frames.append(encoded.tobytes())
     return frames
 
 
@@ -92,3 +129,8 @@ def square_path_generator(frame_time=SQUARE_PATH_FRAME_TIME):
                b'Content-Type: image/jpeg\r\n'
                b'Content-Length: ' + str(len(frame)).encode() + b'\r\n\r\n' + frame + b'\r\n')
         time.sleep(frame_time)
+
+
+if __name__ == "__main__":
+    for written in write_side_images():
+        print(written)
